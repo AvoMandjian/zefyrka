@@ -108,7 +108,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildMenuBar(BuildContext context) {
-    final headerStyle = TextStyle(fontSize: 11, color: Colors.grey.shade500, fontWeight: FontWeight.bold);
+    final headerStyle = TextStyle(
+        fontSize: 11, color: Colors.grey.shade500, fontWeight: FontWeight.bold);
     final itemStyle = TextStyle(color: Colors.white);
     return ListView(
       children: [
@@ -158,7 +159,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildWelcomeEditor(BuildContext context) {
     return Column(
       children: [
-        ZefyrToolbar.basic(controller: _controller!),
+        ZefyrToolbar.basic(
+          controller: _controller!,
+          themeData: Theme.of(context).copyWith(
+            canvasColor: Colors.white,
+          ),
+        ),
         Divider(height: 1, thickness: 1, color: Colors.grey.shade200),
         Expanded(
           child: Container(

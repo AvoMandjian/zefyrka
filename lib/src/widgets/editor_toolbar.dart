@@ -158,6 +158,7 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   IconData icon,
   bool isToggled,
   VoidCallback? onPressed,
+  ThemeData? themeData,
 );
 
 /// Toolbar button which allows to toggle a style attribute on or off.
@@ -174,12 +175,15 @@ class ToggleStyleButton extends StatefulWidget {
   /// Builder function to customize visual representation of this button.
   final ToggleStyleButtonBuilder childBuilder;
 
+  final ThemeData? themeData;
+
   ToggleStyleButton({
     Key? key,
     required this.attribute,
     required this.icon,
     required this.controller,
     this.childBuilder = defaultToggleStyleButtonBuilder,
+    this.themeData,
   })  : assert(!attribute.isUnset),
         super(key: key);
 
@@ -233,7 +237,7 @@ class _ToggleStyleButtonState extends State<ToggleStyleButton> {
     final isEnabled =
         !isInCodeBlock || widget.attribute == NotusAttribute.block.code;
     return widget.childBuilder(context, widget.attribute, widget.icon,
-        _isToggled, isEnabled ? _toggleAttribute : null);
+        _isToggled, isEnabled ? _toggleAttribute : null, widget.themeData);
   }
 
   void _toggleAttribute() {
@@ -252,8 +256,9 @@ Widget defaultToggleStyleButtonBuilder(
   IconData icon,
   bool isToggled,
   VoidCallback? onPressed,
+  ThemeData? themeData,
 ) {
-  final theme = Theme.of(context);
+  final theme = themeData ?? Theme.of(context);
   final isEnabled = onPressed != null;
   final iconColor = isEnabled
       ? isToggled
@@ -385,24 +390,27 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
 
   const ZefyrToolbar({Key? key, required this.children}) : super(key: key);
 
-  factory ZefyrToolbar.basic(
-      {Key? key,
-      required ZefyrController controller,
-      bool hideBoldButton = false,
-      bool hideItalicButton = false,
-      bool hideUnderLineButton = false,
-      bool hideStrikeThrough = false,
-      bool hideHeadingStyle = false,
-      bool hideListNumbers = false,
-      bool hideListBullets = false,
-      bool hideCodeBlock = false,
-      bool hideQuote = false,
-      bool hideLink = false,
-      bool hideHorizontalRule = false}) {
+  factory ZefyrToolbar.basic({
+    Key? key,
+    required ZefyrController controller,
+    bool hideBoldButton = false,
+    bool hideItalicButton = false,
+    bool hideUnderLineButton = false,
+    bool hideStrikeThrough = false,
+    bool hideHeadingStyle = false,
+    bool hideListNumbers = false,
+    bool hideListBullets = false,
+    bool hideCodeBlock = false,
+    bool hideQuote = false,
+    bool hideLink = false,
+    bool hideHorizontalRule = false,
+    ThemeData? themeData,
+  }) {
     return ZefyrToolbar(key: key, children: [
       Visibility(
         visible: !hideBoldButton,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.bold,
           icon: Icons.format_bold,
           controller: controller,
@@ -412,6 +420,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideItalicButton,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.italic,
           icon: Icons.format_italic,
           controller: controller,
@@ -421,6 +430,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideUnderLineButton,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.underline,
           icon: Icons.format_underline,
           controller: controller,
@@ -430,6 +440,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideStrikeThrough,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.strikethrough,
           icon: Icons.format_strikethrough,
           controller: controller,
@@ -446,6 +457,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideListNumbers,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.block.numberList,
           controller: controller,
           icon: Icons.format_list_numbered,
@@ -454,6 +466,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideListBullets,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.block.bulletList,
           controller: controller,
           icon: Icons.format_list_bulleted,
@@ -462,6 +475,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideCodeBlock,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.block.code,
           controller: controller,
           icon: Icons.code,
@@ -474,6 +488,7 @@ class ZefyrToolbar extends StatefulWidget implements PreferredSizeWidget {
       Visibility(
         visible: !hideQuote,
         child: ToggleStyleButton(
+          themeData: themeData,
           attribute: NotusAttribute.block.quote,
           controller: controller,
           icon: Icons.format_quote,
