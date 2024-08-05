@@ -19,3 +19,6 @@ doc/api/
 build/
 
 example/feather
+
+# FVM Version Cache
+.fvm/
