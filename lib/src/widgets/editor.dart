@@ -1066,9 +1066,9 @@ class RawEditorState extends EditorState
         offsetInViewport,
       );
 
-      if (offset != null) {
+      if (offset != null && offset>0) {
         _scrollController!.animateTo(
-          offset,
+          offset-8,
           duration: _caretAnimationDuration,
           curve: _caretAnimationCurve,
         );
