@@ -97,8 +97,16 @@ class CursorStyle {
   }
 
   @override
-  int get hashCode => hashValues(color, backgroundColor, width, height, radius,
-      offset, opacityAnimates, paintAboveText);
+  int get hashCode => (
+        color,
+        backgroundColor,
+        width,
+        height,
+        radius,
+        offset,
+        opacityAnimates,
+        paintAboveText
+      ).hashCode;
 }
 
 /// Controls cursor of an editable widget.
@@ -164,8 +172,7 @@ class CursorController extends ChangeNotifier {
       //
       // These values and curves have been obtained through eyeballing, so are
       // likely not exactly the same as the values for native iOS.
-      _cursorBlinkOpacityController.animateTo(targetOpacity,
-          curve: Curves.easeOut);
+      _cursorBlinkOpacityController.animateTo(targetOpacity, curve: Curves.easeOut);
     } else {
       _cursorBlinkOpacityController.value = targetOpacity;
     }
@@ -182,8 +189,7 @@ class CursorController extends ChangeNotifier {
     _cursorBlinkOpacityController.value = 1.0;
 
     if (style.opacityAnimates) {
-      _cursorTimer =
-          Timer.periodic(_kCursorBlinkWaitForStart, _cursorWaitForStart);
+      _cursorTimer = Timer.periodic(_kCursorBlinkWaitForStart, _cursorWaitForStart);
     } else {
       _cursorTimer = Timer.periodic(_kCursorBlinkHalfPeriod, _cursorTick);
     }
@@ -202,10 +208,7 @@ class CursorController extends ChangeNotifier {
   }
 
   void startOrStopCursorTimerIfNeeded(bool hasFocus, TextSelection selection) {
-    if (showCursor.value &&
-        _cursorTimer == null &&
-        hasFocus &&
-        selection.isCollapsed) {
+    if (showCursor.value && _cursorTimer == null && hasFocus && selection.isCollapsed) {
       startCursorTimer();
     } else if (_cursorTimer != null && (!hasFocus || !selection.isCollapsed)) {
       stopCursorTimer();
@@ -213,10 +216,8 @@ class CursorController extends ChangeNotifier {
   }
 
   void _onCursorColorTick() {
-    _cursorColor.value =
-        _style.color.withOpacity(_cursorBlinkOpacityController.value);
-    cursorBlink.value =
-        showCursor.value && _cursorBlinkOpacityController.value > 0;
+    _cursorColor.value = _style.color.withOpacity(_cursorBlinkOpacityController.value);
+    cursorBlink.value = showCursor.value && _cursorBlinkOpacityController.value > 0;
   }
 }
 
@@ -253,8 +254,7 @@ class FloatingCursorController {
 //  Offset get _floatingCursorOffset =>
 //      Offset(0, renderEditor.preferredLineHeight / 2);
 
-  void updateFloatingCursor(
-      RawFloatingCursorPoint point, RenderEditor renderEditor) {
+  void updateFloatingCursor(RawFloatingCursorPoint point, RenderEditor renderEditor) {
 //    switch (point.state) {
 //      case FloatingCursorDragState.Start:
 //        if (_floatingCursorResetController.isAnimating) {
